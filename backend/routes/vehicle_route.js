@@ -109,4 +109,11 @@ router.post('/bookings',async (req,res)=>{
     }
 })
 
+router.delete('/bookings/:id', async (req, res) => {
+  const deleted = await Booking.findByIdAndDelete(req.params.id);
+  if (!deleted) return res.status(404).json({ error: 'Booking not found' });
+  return res.status(200).json({ message: 'Booking cancelled' });
+});
+
+
 export default router;
