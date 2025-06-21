@@ -11,6 +11,7 @@ export default function AvailableVehicleCard({ vehicle, duration,searchData }) {
         ...searchData
       })
     });
+    console.log(searchData)
     const data = await res.json();
     alert(res.ok ? 'Booking confirmed!' : 'Booking failed: ' + data.message);
   };
