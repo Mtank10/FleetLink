@@ -52,7 +52,7 @@ export default function SearchForm({ onSearch }) {
         <input
           type="datetime-local"
           value={form.startTime}
-          onChange={(e) => setForm({ ...form, startTime: e.target.value })}
+          onChange={(e) => setForm({ ...form,startTime: new Date(e.target.value).toISOString() })}
           required
           className="p-2 border rounded mb-2"
         />
