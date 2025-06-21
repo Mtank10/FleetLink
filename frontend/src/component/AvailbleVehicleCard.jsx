@@ -1,8 +1,8 @@
 export default function AvailableVehicleCard({ vehicle, duration,searchData }) {
 
     const handleBooking = async () => {
-      
-    const res = await fetch('http://localhost:4000/api/bookings', {
+      const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
+    const res = await fetch(`${BACKEND_URL}/api/bookings`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({

@@ -12,7 +12,9 @@ export default function SearchForm({ onSearch }) {
    const handleSubmit = async (e) => {
     e.preventDefault();
     const params = new URLSearchParams(form).toString();
-    const res = await fetch(`http://localhost:4000/api/vehicles/available?${params}`);
+      const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
+
+    const res = await fetch(`${BACKEND_URL}/api/vehicles/available?${params}`);
     const data = await res.json();
     
     onSearch(data)

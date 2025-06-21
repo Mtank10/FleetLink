@@ -2,9 +2,10 @@ import { useEffect, useState } from 'react';
 
 export default function BookingList() {
   const [bookings, setBookings] = useState([]);
+  const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 
   const fetchBookings = async () => {
-    const res = await fetch('http://localhost:4000/api/bookings'); 
+    const res = await fetch(`${BACKEND_URL}/api/bookings`); 
     const data = await res.json();
     setBookings(data);
   };
@@ -14,7 +15,7 @@ export default function BookingList() {
   }, []);
 
   const cancelBooking = async (id) => {
-    const res = await fetch(`http://localhost:4000/api/bookings/${id}`, { method: 'DELETE' });
+    const res = await fetch(`${BACKEND_URL}/api/bookings/${id}`, { method: 'DELETE' });
     if (res.ok) {
       alert('Booking cancelled');
       fetchBookings();
