@@ -11,7 +11,7 @@ const PORT = process.env.PORT || 5000;
 // Middleware
 
 app.use(cors({
-  origin: 'https://fleetlink-wg1k.onrender.com', 
+  origin: 'https://fleetlink-1-766x.onrender.com', 
   credentials: true, 
 }));
 app.use(express.json());
