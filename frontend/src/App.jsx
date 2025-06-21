@@ -6,10 +6,10 @@ import ViewBooking from "./pages/ViewBooking";
 export default function App() {
   return (
     <BrowserRouter>
-      <nav style={{ padding: '1rem', background: '#f0f0f0' }}>
-        <Link to="/" style={{ marginRight: '1rem' }}>Search & Book</Link>
-        <Link to="/add-vehicle" style={{ marginRight: '1rem' }}>Add Vehicle</Link>
-        <Link to="/view-bookings">View Bookings</Link>
+      <nav className="flex justify-center items-center bg-gray-800 text-white p-4 space-x-10">
+        <Link to="/">Search & Book</Link>
+        <Link to="/add-vehicle">Add Vehicle</Link>
+        <Link to="/view-bookings" >View Bookings</Link>
       </nav>
       <Routes>
         <Route path="/" element={<SearchAndBook />} />

@@ -3,14 +3,16 @@ import {useState} from 'react';
 export default function VehicleForm(){
     const [form,setForm] = useState({
         name:'',
-        capacityKg:0,
-        tyres:0,
+        capacityKg:"",
+        tyres:"",
     });
     const [message,setMessage] = useState('');
     const handleSubmit = async (e)=>{
         e.preventDefault();
         try{
-            const res = await fetch('http://localhost:4000/api/vehicles',{
+            const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
+
+            const res = await fetch(`${BACKEND_URL}/api/vehicles`,{
                 method:'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -32,35 +34,37 @@ export default function VehicleForm(){
 
     return (
         <form onSubmit={handleSubmit}>
-            <h2>Create Vehicle</h2>
-            <div>
-                <label>Name:</label>
+            <div className='mb-4 flex flex-col p-4 bg-white rounded shadow-md'>
+                <label className='text-md text-gray-800'>Name:</label>
                 <input 
                     type="text" 
                     value={form.name} 
                     onChange={(e) => setForm({...form, name: e.target.value})} 
                     required 
+                    placeholder='Enter vehicle name'
+                    className='p-2 border rounded mb-2'
                 />
-            </div>
-            <div>
-                <label>Capacity (kg):</label>
+            
+                <label className='text-md text-gray-800'>Capacity (kg):</label>
                 <input 
-                    type="number" 
+                    type="text" 
                     value={form.capacityKg} 
                     onChange={(e) => setForm({...form, capacityKg: e.target.value})} 
                     required 
+                    placeholder='Enter capacity in kg'
+                    className='p-2 border rounded mb-2'
                 />
-            </div>
-            <div>
-                <label>Tyres:</label>
+                <label className='text-md text-gray-800'>Tyres:</label>
                 <input 
-                    type="number" 
+                    type="text" 
                     value={form.tyres} 
                     onChange={(e) => setForm({...form, tyres: e.target.value})} 
                     required 
+                    placeholder='Enter number of tyres'
+                    className='p-2 border rounded mb-2'
                 />
             </div>
-            <button type="submit">Create Vehicle</button>
+            <button className='p-2 border rounded bg-blue-400 ml-15' type="submit">Create Vehicle</button>
             {message && <p>{message}</p>}
         </form>
     )

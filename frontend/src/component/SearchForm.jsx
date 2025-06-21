@@ -14,48 +14,48 @@ export default function SearchForm({ onSearch }) {
     const params = new URLSearchParams(form).toString();
     const res = await fetch(`http://localhost:4000/api/vehicles/available?${params}`);
     const data = await res.json();
-    onSearch(data);
+    
+    onSearch(data)
   };
  return (
     <form onSubmit={handleSubmit}>
-      <h2>Search Vehicles</h2>
-      <div>
+      <div className="mb-4 flex flex-col p-4 bg-white rounded shadow-md">
         <label>Capacity (kg):</label>
         <input
           type="number"
           value={form.capacityKg}
           onChange={(e) => setForm({ ...form, capacityKg: e.target.value })}
           required
+          className="p-2 border rounded mb-2"
         />
-      </div>
-      <div>
-        <label>From Pincode:</label>
+      <label>From Pincode:</label>
         <input
           type="text"
           value={form.fromPincode}
           onChange={(e) => setForm({ ...form, fromPincode: e.target.value })}
           required
+          placeholder="eg.. 110039"
+          className="p-2 border rounded mb-2"
         />
-      </div>
-      <div>
         <label>To Pincode:</label>
         <input
           type="text"
           value={form.toPincode}
           onChange={(e) => setForm({ ...form, toPincode: e.target.value })}
           required
+          placeholder="eg.. 410449"
+          className="p-2 border rounded mb-2"
         />
-      </div>
-      <div>
         <label>Start Time:</label>
         <input
           type="datetime-local"
           value={form.startTime}
           onChange={(e) => setForm({ ...form, startTime: e.target.value })}
           required
+          className="p-2 border rounded mb-2"
         />
       </div>
-      <button type="submit">Search</button>
+      <button className="p-2 ml-15 bg-blue-600 border rounded w-30" type="submit">Search</button>
     </form>
  )
 }

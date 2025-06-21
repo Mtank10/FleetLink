@@ -1,0 +1,21 @@
+version: '3.8'
+
+services:
+  backend:
+    build: ./backend
+    container_name: backend
+    ports:
+      - '4000:4000'
+    environment:
+      - MONGO_URI=${MONGO_URI}
+    depends_on: []
+
+  frontend:
+    build: ./frontend
+    container_name: frontend
+    ports:
+      - '3000:3000'
+    environment:
+      - VITE_BACKEND_URL=http://localhost:4000
+    depends_on:
+      - backend

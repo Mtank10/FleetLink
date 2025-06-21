@@ -1,5 +1,6 @@
-import mongoose from 'mongoose';
-import Vehicle from './vehicle_model.js'; 
+const mongoose = require('mongoose');
+const Vehicle = require('./vehicle_model'); // Assuming vehicle_model.js is in the same directory
+
 const bookingSchema = new mongoose.Schema({
   vehicle: {
     type: mongoose.Schema.Types.ObjectId,
@@ -21,4 +22,4 @@ const bookingSchema = new mongoose.Schema({
   }
 }, { timestamps: true });
 const Booking = mongoose.model('Booking', bookingSchema);
-export default Booking;
+module.exports = Booking;

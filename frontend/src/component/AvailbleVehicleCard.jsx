@@ -1,27 +1,28 @@
 export default function AvailableVehicleCard({ vehicle, duration,searchData }) {
 
     const handleBooking = async () => {
+      
     const res = await fetch('http://localhost:4000/api/bookings', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        vehicle: vehicle._id,
-        customerId: 'demo-customer-123',  // hardcoded for now
+        vehicleId: vehicle._id,
+        customerId: 'demo-customer-123',  
         ...searchData
       })
     });
     const data = await res.json();
-    alert(res.ok ? 'Booking confirmed!' : data.error);
+    alert(res.ok ? 'Booking confirmed!' : 'Booking failed: ' + data.message);
   };
 
   return (
-    <div className="vehicle-card">
-      <h3>{vehicle.name}</h3>
-      <p>Capacity: {vehicle.capacityKg} kg</p>
+    <div className="flex flex-col bg-white p-4 rounded shadow-md mb-4">
+      <h3 className="text-md ">Name: {vehicle.name}</h3>
+      <p className="">Capacity: {vehicle.capacityKg} kg</p>
       <p>Tyres: {vehicle.tyres}</p>
       <p>Available from: {new Date(searchData.startTime).toLocaleString()}</p>
       <p>Duration: {duration} hours</p>
-      <button onClick={handleBooking}>Book Now</button>
+      <button className="mt-2 p-2 bg-green-800 border w-30 rounded" onClick={handleBooking}>Book Now</button>
     </div>
   )
 }

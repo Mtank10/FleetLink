@@ -1,9 +1,8 @@
-import express from 'express';
+const express = require('express');
 const router = express.Router();
-import Vehicle from '../model/vehicle_model.js';
-import Booking from '../model/booking_model.js';
-import app from '../index.js';
-
+const Vehicle = require('../model/vehicle_model.js'); 
+const Booking = require('../model/booking_model.js'); 
+ 
 
 
 router.post('/vehicles', async (req, res) => {
@@ -13,13 +12,15 @@ router.post('/vehicles', async (req, res) => {
         if (!name || !capacityKg || !tyres) {
             return res.status(400).json({ message: 'All fields are required' });
         }
-        if (typeof name !== 'string' || typeof capacityKg !== 'number' || typeof tyres !== 'number') {
-            return res.status(400).json({ message: 'Invalid input types' });
+         const capacityKg1 = parseInt(capacityKg);
+        const tyres1 = parseInt(tyres);
+        if (isNaN(capacityKg1) || isNaN(tyres1)) {
+            return res.status(400).json({ message: 'Capacity and tyres must be numbers' });
         }
-        if (capacityKg < 0 || tyres < 0) {
+        if (capacityKg1 < 0 || tyres1 < 0) {
             return res.status(400).json({ message: 'Capacity and tyres must be non-negative' });
         }
-        const vehicle = await Vehicle.create({ name, capacityKg, tyres });
+        const vehicle = await Vehicle.create({ name, capacityKg:capacityKg1, tyres:tyres1 });
         
          res.status(201).json({
             message: 'Vehicle added successfully',
@@ -59,7 +60,12 @@ router.get('/vehicles/available',async (req,res)=>{
         return res.status(200).json({
             message: 'Available vehicles found',
             availableVehicles, 
-            estimatedRideDurationHours: estimatedRideDurationHours 
+            estimatedRideDurationHours: estimatedRideDurationHours,
+            searchData: {
+                capacityKg,
+                startTime,
+                endTime: end.toISOString()
+            }
         })
 
     }catch (error) {
@@ -86,7 +92,7 @@ router.post('/bookings',async (req,res)=>{
             endTime: { $gt: start }
         })
         if (conflict) {
-            return res.status(400).json({ message: 'Vehicle is already booked for the selected time' });
+            return res.status(403).json({ message: 'Vehicle is already booked for the selected time' });
         }
         const booking = await Booking.create({
             vehicle: vehicleId,
@@ -115,5 +121,17 @@ router.delete('/bookings/:id', async (req, res) => {
   return res.status(200).json({ message: 'Booking cancelled' });
 });
 
+router.get('/bookings', async (req, res) => {
+  try {
+    const bookings = await Booking.find().populate('vehicle', 'name');
+    bookings.forEach(booking => {
+      booking.startTime = booking.startTime.toISOString();
+      booking.endTime = booking.endTime.toISOString();
+    });
+    return res.status(200).json(bookings);
+  } catch (error) {
+    return res.status(500).json({ message: 'Error fetching bookings', error: error.message });
+  }
+});
 
-export default router;
+module.exports = router;
