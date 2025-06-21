@@ -64,7 +64,8 @@ router.get('/vehicles/available',async (req,res)=>{
             searchData: {
                 capacityKg,
                 startTime,
-                endTime: end.toISOString()
+                fromPincode,
+                toPincode
             }
         })
 
