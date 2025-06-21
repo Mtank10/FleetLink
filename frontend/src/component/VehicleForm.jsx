@@ -10,8 +10,6 @@ export default function VehicleForm(){
     const [message,setMessage] = useState('');
     const handleSubmit = async (e)=>{
         e.preventDefault();
-        setLoading(true);
-        setMessage('');
         if(!form.name || !form.capacityKg || !form.tyres){
             setMessage('Please fill all fields');
             setLoading(false);
@@ -30,6 +28,7 @@ export default function VehicleForm(){
             if(res.ok){
                 setMessage('Vehicle created successfully!');
                 setForm({name:'', capacityKg:0, tyres:0});
+                
             } else {
                 const errorData = await res.json();
                 setMessage(`Error: ${errorData.message}`);

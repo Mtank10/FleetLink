@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 
 export default function BookingList() {
   const [bookings, setBookings] = useState([]);
+  const [loading, setLoading] = useState(false);
   const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 
   const fetchBookings = async () => {
@@ -11,7 +12,9 @@ export default function BookingList() {
   };
  
   useEffect(() => {
+    setLoading(true);
     fetchBookings();
+    setLoading(false);
   }, []);
 
   const cancelBooking = async (id) => {
