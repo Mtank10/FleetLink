@@ -1,6 +1,7 @@
 import {useState} from 'react';
 
 export default function VehicleForm(){
+    const [loading, setLoading] = useState(false);
     const [form,setForm] = useState({
         name:'',
         capacityKg:"",
@@ -9,6 +10,13 @@ export default function VehicleForm(){
     const [message,setMessage] = useState('');
     const handleSubmit = async (e)=>{
         e.preventDefault();
+        setLoading(true);
+        setMessage('');
+        if(!form.name || !form.capacityKg || !form.tyres){
+            setMessage('Please fill all fields');
+            setLoading(false);
+            return;
+        }
         try{
             const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 
@@ -64,7 +72,13 @@ export default function VehicleForm(){
                     className='p-2 border rounded mb-2'
                 />
             </div>
-            <button className='p-2 border rounded bg-blue-400 ml-15' type="submit">Create Vehicle</button>
+            <button 
+                className='p-2 border rounded bg-blue-400 ml-15' 
+                type="submit" 
+                disabled={loading}
+            >
+                {loading ? 'Creating...' : 'Create Vehicle'}
+            </button>
             {message && <p>{message}</p>}
         </form>
     )
