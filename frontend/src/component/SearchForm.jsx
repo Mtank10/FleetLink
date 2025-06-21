@@ -19,6 +19,17 @@ export default function SearchForm({ onSearch }) {
     
     onSearch(data)
   };
+  function toDatetimeLocal(isoString) {
+  const date = new Date(isoString);
+  const pad = (n) => String(n).padStart(2, '0');
+  const yyyy = date.getFullYear();
+  const MM = pad(date.getMonth() + 1);
+  const dd = pad(date.getDate());
+  const hh = pad(date.getHours());
+  const mm = pad(date.getMinutes());
+  return `${yyyy}-${MM}-${dd}T${hh}:${mm}`;
+}
+
  return (
     <form onSubmit={handleSubmit}>
       <div className="mb-4 flex flex-col p-4 bg-white rounded shadow-md">
@@ -51,12 +62,11 @@ export default function SearchForm({ onSearch }) {
         <label>Start Time:</label>
         <input
           type="datetime-local"
-          value={form.startTime}
-          onChange={(e) => {
-           const local = new Date(e.target.value);
-           const iso = local.toISOString(); 
-           setForm({ ...form, startTime: iso });
-          }}
+          value={toDatetimeLocal(form.startTime)} 
+  onChange={(e) => {
+    const iso = new Date(e.target.value).toISOString(); 
+    setForm({ ...form, startTime: iso });
+  }}
           required
           className="p-2 border rounded mb-2"
         />
